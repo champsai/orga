@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900" width="1800" height="900" font-family="Prompt, Kanit, 'Leelawadee UI', 'Noto Sans Thai', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrUp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2563c9"/>
+    </marker>
+  </defs>
+
+  <!-- title, like the RAG figure -->
+  <text x="900" y="82" text-anchor="middle" font-size="64" font-weight="700" fill="#12306b" letter-spacing="2">HYBRID AI</text>
+  <text x="900" y="132" text-anchor="middle" font-size="28" font-weight="600" fill="#2563c9" letter-spacing="6">LLM + RULE-BASED MATCHING</text>
+
+  <!-- who does what -->
+  <rect x="430" y="205" width="340" height="52" rx="26" fill="#efeafe"/>
+  <text x="600" y="240" text-anchor="middle" font-size="26" font-weight="700" fill="#6d4ae0">LLM · เข้าใจลูกค้า</text>
+  <rect x="860" y="205" width="380" height="52" rx="26" fill="#e3ecfb"/>
+  <text x="1050" y="240" text-anchor="middle" font-size="26" font-weight="700" fill="#17336f">RULE-BASED · เลือกร้าน</text>
+
+  <!-- arrows between steps -->
+  <g stroke="#94a3b8" stroke-width="7" stroke-linecap="round" marker-end="url(#arr)">
+    <line x1="255" y1="380" x2="338" y2="380"/>
+    <line x1="555" y1="380" x2="638" y2="380"/>
+    <line x1="855" y1="380" x2="938" y2="380"/>
+    <line x1="1155" y1="380" x2="1238" y2="380"/>
+    <line x1="1455" y1="380" x2="1538" y2="380"/>
+  </g>
+
+  <!-- 1 customer brief: chat bubble -->
+  <circle cx="150" cy="380" r="95" fill="#64748b"/>
+  <g transform="translate(150 376)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-30 -34 h60 a16 16 0 0 1 16 16 v26 a16 16 0 0 1 -16 16 h-34 l-20 18 v-18 h-6 a16 16 0 0 1 -16 -16 v-26 a16 16 0 0 1 16 -16 z"/>
+    <circle cx="-18" cy="-5" r="5" fill="#fff" stroke="none"/><circle cx="0" cy="-5" r="5" fill="#fff" stroke="none"/><circle cx="18" cy="-5" r="5" fill="#fff" stroke="none"/>
+  </g>
+
+  <!-- 2 Gemini: sparkle -->
+  <circle cx="450" cy="380" r="95" fill="#6d4ae0"/>
+  <g transform="translate(446 384)" fill="#fff">
+    <path d="M0 -44 C5 -12 12 -5 44 0 C12 5 5 12 0 44 C-5 12 -12 5 -44 0 C-12 -5 -5 -12 0 -44 Z"/>
+    <path transform="translate(32 -32) scale(.36)" d="M0 -44 C5 -12 12 -5 44 0 C12 5 5 12 0 44 C-5 12 -12 5 -44 0 C-12 -5 -5 -12 0 -44 Z"/>
+  </g>
+
+  <!-- 3 Event DNA: helix -->
+  <circle cx="750" cy="380" r="95" fill="#8b6cf0"/>
+  <g transform="translate(750 380)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round">
+    <path d="M-24 -46 C -24 -22, 24 -22, 24 0 C 24 22, -24 22, -24 46"/>
+    <path d="M24 -46 C 24 -22, -24 -22, -24 0 C -24 22, 24 22, 24 46"/>
+    <line x1="-17" y1="-38" x2="17" y2="-38" stroke-width="6"/>
+    <line x1="-18" y1="0" x2="18" y2="0" stroke-width="6"/>
+    <line x1="-17" y1="38" x2="17" y2="38" stroke-width="6"/>
+  </g>
+
+  <!-- 4 matching score: gauge -->
+  <circle cx="1050" cy="380" r="95" fill="#17336f"/>
+  <g transform="translate(1050 392)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round">
+    <path d="M-44 10 A44 44 0 0 1 44 10"/>
+    <line x1="-31" y1="-21" x2="-25" y2="-15" stroke-width="6"/>
+    <line x1="0" y1="-34" x2="0" y2="-26" stroke-width="6"/>
+    <line x1="31" y1="-21" x2="25" y2="-15" stroke-width="6"/>
+    <line x1="0" y1="10" x2="22" y2="-20"/>
+    <circle cx="0" cy="10" r="7" fill="#fff" stroke="none"/>
+    <line x1="-30" y1="32" x2="30" y2="32" stroke-width="6"/>
+  </g>
+
+  <!-- 5 recommended shops: storefront -->
+  <circle cx="1350" cy="380" r="95" fill="#2563c9"/>
+  <g transform="translate(1350 382)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-44 -36 h88 l-6 22 h-76 z"/>
+    <path d="M-36 -14 v52 h72 v-52"/>
+    <path d="M-10 38 v-26 h20 v26"/>
+  </g>
+
+  <!-- 6 order: bag with tick -->
+  <circle cx="1650" cy="380" r="95" fill="#0f8a66"/>
+  <g transform="translate(1650 384)" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-34 -18 h68 l-6 58 h-56 z"/>
+    <path d="M-16 -18 v-10 a16 16 0 0 1 32 0 v10"/>
+    <path d="M-15 12 l10 10 l20 -22"/>
+  </g>
+
+  <!-- labels -->
+  <g text-anchor="middle">
+    <text x="150" y="528" font-size="38" font-weight="700" fill="#1f2937">บรีฟลูกค้า</text>
+    <text x="150" y="570" font-size="26" fill="#64748b">พิมพ์แบบไหนก็ได้</text>
+    <text x="450" y="528" font-size="38" font-weight="700" fill="#1f2937">Gemini</text>
+    <text x="450" y="570" font-size="26" fill="#64748b">เข้าใจภาษาคน</text>
+    <text x="750" y="528" font-size="38" font-weight="700" fill="#1f2937">Event DNA</text>
+    <text x="750" y="570" font-size="26" fill="#64748b">JSON Schema</text>
+    <text x="1050" y="528" font-size="38" font-weight="700" fill="#1f2937">Matching Score</text>
+    <text x="1050" y="570" font-size="26" fill="#64748b">คะแนน 0–5</text>
+    <text x="1350" y="528" font-size="38" font-weight="700" fill="#1f2937">ร้านที่แนะนำ</text>
+    <text x="1350" y="570" font-size="26" fill="#64748b">3 ร้านต่อหมวด</text>
+    <text x="1650" y="528" font-size="38" font-weight="700" fill="#1f2937">ออเดอร์</text>
+    <text x="1650" y="570" font-size="26" fill="#64748b">มัดจำ 30% · Escrow</text>
+  </g>
+
+  <!-- vendor database feeding the score (where RAG's knowledge base sits) -->
+  <line x1="1050" y1="700" x2="1050" y2="602" stroke="#2563c9" stroke-width="7" stroke-linecap="round" marker-end="url(#arrUp)"/>
+  <g stroke="#2563c9" stroke-width="5">
+    <path d="M975 724 v104 a75 22 0 0 0 150 0 v-104" fill="#dbe6fb"/>
+    <ellipse cx="1050" cy="724" rx="75" ry="22" fill="#eef3fd"/>
+    <path d="M975 759 a75 22 0 0 0 150 0" fill="none"/>
+    <path d="M975 794 a75 22 0 0 0 150 0" fill="none"/>
+  </g>
+  <text x="1150" y="768" font-size="34" font-weight="700" fill="#12306b">Vendor Database</text>
+  <text x="1150" y="810" font-size="26" fill="#64748b">ราคา · ความจุ · วันว่าง · รีวิว</text>
+</svg>

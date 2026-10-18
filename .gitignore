@@ -1,0 +1,9 @@
+node_modules/
+.env
+data/db.json
+data/db.json.tmp
+data/uploads/
+# local working files, not part of the prototype
+tmp/
+pitch$n.png
+Biztania26_*.pdf
