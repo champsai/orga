@@ -2,7 +2,7 @@ import express from "express";
 import path from "node:path";
 import fs from "node:fs";
 import multer from "multer";
-import { store, save, reset, newId, now, logActivity, DATA_DIR } from "./lib/store.js";
+import { store, save, reset, newId, now, logActivity, DATA_DIR, syncStore, flushStore } from "./lib/store.js";
 import ASSET_LIST from "./lib/assets.json" with { type: "json" };
 import { rankVendors, CATEGORIES, categoryBudget } from "./lib/matching.js";
 import * as ai from "./lib/ai.js";
@@ -21,6 +21,14 @@ fs.mkdirSync(UPLOADS, { recursive: true });
 const hasAsset = (dir, file) => (fs.existsSync(path.resolve("public", dir)) ? fs.existsSync(path.resolve("public", dir, file)) : (ASSET_LIST[dir] || []).includes(file));
 
 app.use(express.json({ limit: "15mb" }));
+// Shared store on deployments: load what other instances saved, and hold the response until our
+// own save has landed, so the next request (maybe on another instance) sees it. No-op locally.
+app.use(async (_req, res, next) => {
+  try { await syncStore(); } catch (err) { console.error("sync failed:", err.message); }
+  const end = res.end.bind(res);
+  res.end = (...args) => { flushStore().finally(() => end(...args)); return res; };
+  next();
+});
 app.use(express.static("public"));
 // uploaded files (express.static is not used on Vercel, so serve them by hand)
 app.get("/uploads/:file", (req, res) => {
