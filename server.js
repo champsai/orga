@@ -2,7 +2,8 @@ import express from "express";
 import path from "node:path";
 import fs from "node:fs";
 import multer from "multer";
-import { store, save, reset, newId, now, logActivity } from "./lib/store.js";
+import { store, save, reset, newId, now, logActivity, DATA_DIR } from "./lib/store.js";
+import ASSET_LIST from "./lib/assets.json" with { type: "json" };
 import { rankVendors, CATEGORIES, categoryBudget } from "./lib/matching.js";
 import * as ai from "./lib/ai.js";
 import * as concierge from "./lib/concierge.js";
@@ -12,23 +13,30 @@ import { ensurePlan, pushVersion, previewImpact, applyPatch, changeView, changeD
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
-const UPLOADS = path.resolve(process.env.ORCA_DATA_DIR || "data", "uploads");
+const UPLOADS = path.join(DATA_DIR, "uploads");
 fs.mkdirSync(UPLOADS, { recursive: true });
+
+// Photos in public/: read the folder when it is there (local), otherwise the list written at build
+// time (on Vercel public/ lives on the CDN, outside this function). See scripts/asset-manifest.js.
+const hasAsset = (dir, file) => (fs.existsSync(path.resolve("public", dir)) ? fs.existsSync(path.resolve("public", dir, file)) : (ASSET_LIST[dir] || []).includes(file));
 
 app.use(express.json({ limit: "15mb" }));
 app.use(express.static("public"));
-app.use("/uploads", express.static(UPLOADS));
+// uploaded files (express.static is not used on Vercel, so serve them by hand)
+app.get("/uploads/:file", (req, res) => {
+  const file = path.join(UPLOADS, path.basename(req.params.file));
+  if (fs.existsSync(file)) res.sendFile(file); else res.status(404).end();
+});
 
 // Vendor photos: drop public/vendors/<vendorId>-1.jpg (-2, -3) and they replace the mood-board
 // tiles in that shop's portfolio. Checked at most every few seconds.
-const VENDOR_PHOTOS = path.resolve("public/vendors");
 let photoCheckedAt = 0;
 function syncVendorPhotos() {
   if (Date.now() - photoCheckedAt < 3000) return;
   photoCheckedAt = Date.now();
   for (const v of store.vendors()) (v.portfolio || []).forEach((p, i) => {
     if (p.url && !p.url.startsWith("/vendors/")) return; // the shop's own upload wins
-    const ext = ["jpg", "jpeg", "png", "webp"].find((x) => fs.existsSync(path.join(VENDOR_PHOTOS, `${v.id}-${i + 1}.${x}`)));
+    const ext = ["jpg", "jpeg", "png", "webp"].find((x) => hasAsset("vendors", `${v.id}-${i + 1}.${x}`));
     if (ext) p.url = `/vendors/${v.id}-${i + 1}.${ext}`;
     else if (p.url) delete p.url;
   });
@@ -974,7 +982,7 @@ app.post("/api/concierge/:id/change", wrap(async (req, res) => {
 // ORCA's past work for the client portal: public, fictional case studies.
 // A real photo dropped into public/showcase/<id>.jpg|.png|.webp replaces the drawn illustration.
 const showcaseImage = (id) => {
-  for (const ext of ["jpg", "jpeg", "png", "webp"]) if (fs.existsSync(path.resolve("public/showcase", `${id}.${ext}`))) return `showcase/${id}.${ext}`;
+  for (const ext of ["jpg", "jpeg", "png", "webp"]) if (hasAsset("showcase", `${id}.${ext}`)) return `showcase/${id}.${ext}`;
   return `showcase/${id}.svg`;
 };
 app.get("/api/showcase", (_req, res) => res.json({ cases: SHOWCASE.map((c) => ({ ...c, image: showcaseImage(c.id) })), groups: SHOWCASE_GROUPS, groupsTh: SHOWCASE_GROUPS_TH, summary: showcaseSummary() }));
